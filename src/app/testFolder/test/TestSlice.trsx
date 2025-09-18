@@ -1,0 +1,31 @@
+// src/redux/features/dataSlice.ts
+
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+interface Item {
+  title: string;
+}
+
+interface DataState {
+  mainArray: Item[];
+}
+
+const initialState: DataState = {
+  mainArray: [],
+};
+
+const dataSlice = createSlice({
+  name: "data",
+  initialState,
+  reducers: {
+    setArray: (state, action: PayloadAction<Item[]>) => {
+      state.mainArray = action.payload;
+    },
+    clearArray: (state) => {
+      state.mainArray = [];
+    },
+  },
+});
+
+export const { setArray, clearArray } = dataSlice.actions;
+export default dataSlice.reducer;
