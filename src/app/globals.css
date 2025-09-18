@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+:root {
+}
+
+body {
+  font-family: var(--font-open-sans);
+  background: white;
+}
+
+@theme {
+  --color-primary: #017aff;
+  --color-secondary: #e5e5ff;
+  --color-accent: #ffede2;
+  --color-surface: #e5e5ff;
+  --color-card: #eb3c13;
+  --color-warning: #168b86;
+  --color-success: #10b981;
+  --color-info: #333333;
+  --color-background: #f8f8f8;
+}
+
+.input-style {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.error-text {
+  @apply text-red-500 text-sm mt-1;
+}
+
+body .skiptranslate {
+  display: none !important;
+  position: absolute;
+}
+
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+  position: absolute;
+}
+
+.VIpgJd-ZVi9od-ORHb-OEVmcd.skiptranslate {
+  visibility: hidden !important;
+  height: 0 !important;
+  position: absolute !important;
+  top: 0 !important;
+  position: absolute;
+}
+
+section[aria-live="polite"] {
+  display: none !important;
+  position: absolute;
+}
+
+body element.style {
+  top: 0px !important;
+}
+
+/* .sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  animation-duration: 0.7s;
+  animation-name: fadeInDown;
+  animation-timing-function: ease-out;
+  z-index: 999;
+  border-bottom: 1px solid #fafafa;
+} */
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
