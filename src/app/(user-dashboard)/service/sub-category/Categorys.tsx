@@ -188,9 +188,9 @@
 
 //   return (
 //     <div className={`bg-[#F1F5F9] py-8 min-h-screen`}>
-//       <h2 className="text-2xl text-black font-semibold">
-//         Select Multiple Subcategory
-//       </h2>
+// <h2 className="text-2xl text-black font-semibold">
+//   Select Multiple Subcategory
+// </h2>
 
 //       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
 //         {/* Left Column */}
@@ -271,87 +271,261 @@
 
 
 
-
-
-
 "use client";
-import React, { useState } from "react";
+import PrimaryButton from "@/components/shared/primaryButton/PrimaryButton";
+import { setTemplateShowData } from "@/redux/features/AI-intrigratoin/aiFileDataSlice";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { CheckCheck } from "lucide-react";
 
+export interface TemplateName {
+    id: string;
+    title: string;
+    price: number;
+    // required?: boolean;
+}
+  const subCategorySix = [
+    {
+      id: "owner_assignment_1",
+      title: "YΔ Ανάθεσης Ιδιοκτήτη",
+      price: 0.5,
+    },
+    {
+      id: "engineer_assumption_2",
+      title: "YΔ Ανάληψης Έργου Μηχανικού",
+      price: 0.5,
+    },
+    {
+      id: "bearing_organization_3",
+      title: "YΔ Φέροντα Οργανισμού",
+      price: 0.5,
+    },
+    // {
+    //     id: "co_owners_4",
+    //     title: "YΔ Συνιδιοκτητών",
+    //     price: 0.5,
+    // },
+    {
+      id: "technical_report_5",
+      title: "Τεχνική Έκθεση / Τεχνική Περιγραφή Έργου",
+      price: 1,
+    },
+    {
+      id: "detailed_budget_6",
+      title: "Αναλυτικός Προϋπολογισμός Εργασιών",
+      price: 0.5,
+    },
+    {
+      id: "safety_file_7",
+      title: "ΣΑΥ – ΦΑΥ (Σχέδιο & Φάκελος Ασφάλειας & Υγείας)",
+      price: 1,
+    },
+    {
+      id: "waste_management_8",
+      title: "ΣΔΑ (Σχέδιο Διαχείρισης Αποβλήτων)",
+      price: 0.5,
+    },
+    {
+      id: "table_3_9",
+      title: "Πίνακας 3",
+      price: 0.5,
+    },
+    {
+      id: "active_fire_protection_10",
+      title:
+        "Ενημερωτικό Σημείωμα μη απαίτησης Μελέτης Ενεργητικής Πυροπροστασίας",
+      price: 0.5,
+    },
+    {
+      id: "passive_fire_protection_11",
+      title:
+        "Ενημερωτικό Σημείωμα μη απαίτησης Μελέτης Παθητικής Πυροπροστασίας",
+      price: 0.5,
+    },
+    {
+      id: "electrical_mechanical_12",
+      title: "Ενημερωτικό Σημείωμα μη απαίτησης Μελέτης Η/Μ Εγκαταστάσεων",
+      price: 0.5,
+    },
+    {
+      id: "plumbing_sewage_13",
+      title: "Ενημερωτικό Σημείωμα μη απαίτησης Μελέτης Ύδρευσης/Αποχέτευσης",
+      price: 0.5,
+    },
+    {
+      id: "notarial_deed_14",
+      title: "Ενημερωτικό Σημείωμα μη απαίτησης Συμβολαιογραφικής Πράξης",
+      price: 0.5,
+    },
+    {
+      id: "co_owners_consent_15",
+      title: "Ενημερωτικό Σημείωμα μη απαίτησης Συναίνεσης Συνιδιοκτητών",
+      price: 0.5,
+    },
+    {
+      id: "autofill_16",
+      title: "Autofill (προαιρετικό add-on)",
+      price: 1,
+    },
+  ];
+
+  const subCategoryFive = [
+    {
+      id: "DOC001",
+      title: "Αναλυτικός Προϋπολογισμός Εργασιών",
+      price: 0.5,
+    },
+    {
+      id: "DOC002",
+      title: "Ενημερωτικό Σημείωμα Σχεδίων Όψεων",
+      price: 0.5,
+    },
+    {
+      id: "DOC003",
+      title: "Πίνακας 3(ΙΚΑ)",
+      price: 0.5,
+    },
+    {
+      id: "DOC004",
+      title: "ΣΑΥ – ΦΑΥ (Σχέδιο & Φάκελος Ασφάλειας & Υγείας)",
+      price: 0.5,
+    },
+    {
+      id: "DOC005",
+      title: "ΣΔΑ (Σχέδιο Διαχείρισης Αποβλήτων)",
+      price: 0.5,
+    },
+    {
+      id: "DOC006",
+      title: "ΥΔ Ανάθεσης Επίβλεψης Ιδιοκτήτη",
+      price: 0.5,
+    },
+    {
+      id: "DOC007",
+      title: "ΥΔ Ανάθεσης Ιδιοκτήτη",
+      price: 0.5,
+    },
+    {
+      id: "DOC008",
+      title: "ΥΔ Ανάληψης Επίβλεψης Έργου Μηχανικού",
+      price: 0.5,
+    },
+    {
+      id: "DOC009",
+      title: "ΥΔ Ανάληψης Έργου Μηχανικού",
+      price: 0.5,
+    },
+    {
+      id: "DOC010",
+      title: "ΥΔ μη ύπαρξης ΑΕΚΚ_ΣΔΑ Μηχανικού",
+      price: 0.5,
+    },
+    {
+      id: "DOC011",
+      title: "Υπόδειγμα Συναίνεσης Συνιδιοκτητών",
+      price: 0.5,
+    },
+    {
+      id: "DOC012",
+      title: "Τεχνική Έκθεση / Βεβαίωση Μηχανικού",
+      price: 0.5,
+    },
+  ];
 function Test() {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([...subCategorySix, ...subCategoryFive]);
+  const [activeButtons, setActiveButtons] = useState<string[]>(["subCategorySix", "subCategoryFive"]);
+  const dispatch = useDispatch();
+  const navigate = useRouter();
 
-  const a = [
-    { title: "a1" },
-    { title: "a2" },
-    { title: "a3" },
-    { title: "a4" },
-    { title: "a5" },
-  ];
-
-  const b = [
-    { title: "b1" },
-    { title: "b2" },
-    { title: "b3" },
-    { title: "b4" },
-    { title: "b5" },
-  ];
-
-  const c = [
-    { title: "c1" },
-    { title: "c2" },
-    { title: "c3" },
-    { title: "c4" },
-    { title: "c5" },
-  ];
+  useEffect(() => {
+    dispatch(setTemplateShowData(data));
+  }, [data]);
 
   console.log(data, "data===========================");
 
-  const handleClick = (arr: any[]) => {
-    // check if first item of array exists in state → means array already added
-    const exists = data.some((item) => arr.some((x) => x.title === item.title));
+  const handleClick = (id: string, arr: any[]) => {
+    const isActive = activeButtons.includes(id);
 
-    if (exists) {
-      // remove the whole array (filter out all its items)
-      setData((prev) => prev.filter((item) => !arr.some((x) => x.title === item.title)));
+    if (isActive) {
+      // Remove items + remove ID
+      setData((prev) =>
+        prev.filter((item) => !arr.some((x) => x.title === item.title))
+      );
+      setActiveButtons((prev) => prev.filter((btnId) => btnId !== id));
     } else {
-      // add the array
+      // Add items + add ID
       setData((prev) => [...prev, ...arr]);
+      setActiveButtons((prev) => [...prev, id]);
     }
   };
 
+  const handleSave = () => {
+    navigate.push("/description-task");
+  };
+
   return (
-    <div>
-      <div>
-        <h1></h1>
-        <button
-        onClick={() => handleClick(a)}
-        className="m-2 p-2 bg-blue-500 text-white rounded"
-      >
-        Εσωτερικές διαρρυθμίσεις_6
-      </button>
+    <div className={`bg-[#F1F5F9] py-8 min-h-screen`}>
+      <h2 className="text-2xl text-black font-semibold">
+        Select Multiple Subcategory
+      </h2>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
+        <div className="flex items-center gap-3 mb-4">
+          <button
+            onClick={() => handleClick("subCategorySix", subCategorySix)}
+            className={`px-8 py-3 flex items-center gap-2 font-medium shadow-sm  rounded-2xl transition-colors cursor-pointer ${
+              activeButtons.includes("subCategorySix")
+                ? "!text-white"
+                : "text-black"
+            }`}
+            style={{
+              borderRadius: "8px",
+              background: activeButtons.includes("subCategorySix")
+                ? "linear-gradient(44deg, #017AFF 37.44%, #61BDFF 67.11%) "
+                : "white",
+            }}
+          >
+            <span>
+              {activeButtons.includes("subCategorySix") && <CheckCheck />}
+            </span>
+            <span>Εσωτερικές διαρρυθμίσεις_6</span>
+          </button>
 
-      <button
-        onClick={() => handleClick(b)}
-        className="m-2 p-2 bg-green-500 text-white rounded"
-      >
-        Εργασίες χρωματισμών & επισκευών με χρήση ικριωμάτων_5
-      </button>
-
-      <button
-        onClick={() => handleClick(c)}
-        className="m-2 p-2 bg-purple-500 text-white rounded"
-      >
-        Εργασίες χρωματισμών & επισκευών με χρήση ικριωμάτων_7
-      </button>
+          <button
+            onClick={() => handleClick("subCategoryFive", subCategoryFive)}
+            className={`px-8 py-3 flex items-center gap-2 font-medium shadow-sm  rounded-2xl transition-colors cursor-pointer ${
+              activeButtons.includes("subCategoryFive")
+                ? "!text-white"
+                : "text-black"
+            }`}
+            style={{
+              borderRadius: "8px",
+              background: activeButtons.includes("subCategoryFive")
+                ? "linear-gradient(44deg, #017AFF 37.44%, #61BDFF 67.11%) "
+                : "white",
+            }}
+          >
+            <span>
+              {activeButtons.includes("subCategoryFive") && <CheckCheck />}
+            </span>
+            <span>Εργασίες χρωματισμών & επισκευών με χρήση ικριωμάτων_5</span>
+          </button>
+        </div>
       </div>
 
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <h3>Collected Array:</h3>
         <pre>{JSON.stringify(data, null, 2)}</pre>
+      </div> */}
+      {/* Save Button */}
+      <div className="flex justify-end mt-8 w-fit ml-auto">
+        <PrimaryButton
+          label="Save & Continue"
+          onClick={handleSave}
+        ></PrimaryButton>
       </div>
     </div>
   );
 }
 
 export default Test;
-

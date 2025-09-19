@@ -84,6 +84,7 @@ interface AiExtractState {
   actionSelection?: any[];
   selectTemplate?: any[];
   projectIdCode?: string | null;
+  templateShowData?: [] 
 }
 
 const initialState: AiExtractState = {
@@ -98,6 +99,7 @@ const initialState: AiExtractState = {
   aiInputData: null,
   actionSelection: [],
   projectIdCode: null,
+  templateShowData: [],
 };
 
 const aiExtractDataSlice = createSlice({
@@ -138,6 +140,11 @@ const aiExtractDataSlice = createSlice({
     setAiExtreactAndInputData: (state, action) => {
       state.aiInputData = action.payload;
     },
+    setTemplateShowData: (state, action) => {
+      state.templateShowData = action.payload;
+      console.log(action)
+    },
+
     resetAiExtractState: () => initialState,
   },
 });
@@ -154,7 +161,8 @@ export const {
   setMultipleDescriptionTask,
   setMultipleDescription,
   setSelectTemplate,
-  resetAiExtractState
+  resetAiExtractState,
+  setTemplateShowData,
 } = aiExtractDataSlice.actions;
 
 export default aiExtractDataSlice.reducer;

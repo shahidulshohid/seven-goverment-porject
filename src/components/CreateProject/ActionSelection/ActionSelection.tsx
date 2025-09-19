@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loading from "@/components/Others/Loading";
 import PrimaryButton from "@/components/shared/primaryButton/PrimaryButton";
 import { useGetCreditServiceQuery, useRemainingCreditQuery, useUseCreditsMutation } from "@/redux/features/credit/creditSlice";
-import { templateName } from "./data";
+// import { templateName } from "./data";
 
 interface ActionSelectionProps {
   selectedActions: string[];
@@ -30,6 +30,8 @@ const ActionSelection: React.FC<ActionSelectionProps> = ({
     "Create Technical Description",
   ];
 
+  
+
   const [selected, setSelected] = useState<string[]>(["technical", "engineer"]); // default selected
   const [template, setTemplate] = useState<any[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -40,6 +42,8 @@ const ActionSelection: React.FC<ActionSelectionProps> = ({
   const [useCredit] = useUseCreditsMutation();
   const dispatch = useDispatch();
   const stepByStepData: any = useSelector((state: RootState) => state.aiData);
+  const templateName = stepByStepData?.templateShowData;
+  console.log(stepByStepData.templateShowData, "data----data")
   const id = stepByStepData?.projectId?.id;
 
   const { data, isLoading } = useGetCreditServiceQuery(id || "", { skip: !id });
@@ -48,12 +52,12 @@ const ActionSelection: React.FC<ActionSelectionProps> = ({
 
   // Compute subtotal
   const subtotal = templateName
-    .filter((s) => selected.includes(s.id))
-    .reduce((acc, s) => acc + s.price, 0);
+    .filter((s: any) => selected.includes(s.id))
+    .reduce((acc: any, s: any) => acc + s.price, 0);
 
   // Update template list when selections change
   useEffect(() => {
-    const filtered = templateName.filter((s) => selected.includes(s.id));
+    const filtered = templateName.filter((s: any) => selected.includes(s.id));
     setTemplate(filtered);
   }, [selected]);
 
@@ -134,7 +138,7 @@ const ActionSelection: React.FC<ActionSelectionProps> = ({
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Template Selection Panel */}
         <div className="lg:col-span-2 space-y-4">
-          {templateName.map((tem, i) => (
+          {templateName.map((tem: any, i: any) => (
             <div
               key={i}
               className={`cursor-pointer border rounded-xl px-6 py-4 transition-all duration-200 hover:shadow-md transform hover:-translate-y-0.5 ${selected.includes(tem.id)
